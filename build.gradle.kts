@@ -1,17 +1,12 @@
-import com.jfrog.bintray.gradle.BintrayExtension.PackageConfig
-import com.jfrog.bintray.gradle.BintrayExtension.VersionConfig
-import java.util.*
-
 plugins {
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
     `java-library`
     `maven-publish`
-    id("com.jfrog.bintray") version "1.8.5"
+    signing
 }
 
-group = "org.rationalityfrontline.exposed"
-version = "0.28.1"
-
+group = "org.rationalityfrontline.workaround"
+version = "0.29.1"
 val NAME = project.name
 val DESC = "Removed hyphen from package name (\"java-time\" -> \"javatime\")"
 val GITHUB_REPO = "RationalityFrontline/exposed-java-time"
@@ -24,21 +19,19 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$version")
 }
 
-tasks {
-    register<Jar>("sourcesJar") {
-        archiveClassifier.set("sources")
-        from(sourceSets["main"].allSource)
-    }
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
-        create<MavenPublication>("mavenPublish") {
+        create<MavenPublication>("maven") {
             from(components["java"])
-            artifact(tasks["sourcesJar"])
             pom {
                 name.set(NAME)
-                description.set("$NAME ${project.version} - $DESC")
+                description.set(DESC)
+                packaging = "jar"
                 url.set("https://github.com/$GITHUB_REPO")
                 licenses {
                     license {
@@ -50,44 +43,36 @@ publishing {
                     developer {
                         name.set("RationalityFrontline")
                         email.set("rationalityfrontline@gmail.com")
+                        organization.set("RationalityFrontline")
+                        organizationUrl.set("https://github.com/RationalityFrontline")
                     }
                 }
                 scm {
-                    url.set("https://github.com/$GITHUB_REPO")
+                    connection.set("scm:git:git://github.com/$GITHUB_REPO.git")
+                    developerConnection.set("scm:git:ssh://github.com:$GITHUB_REPO.git")
+                    url.set("https://github.com/$GITHUB_REPO/tree/master")
                 }
+            }
+        }
+    }
+    repositories {
+        fun env(propertyName: String): String {
+            return if (project.hasProperty(propertyName)) {
+                project.property(propertyName) as String
+            } else "Unknown"
+        }
+        maven {
+            val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            credentials {
+                username = env("ossrhUsername")
+                password = env("ossrhPassword")
             }
         }
     }
 }
 
-bintray {
-    fun env(propertyName: String): String {
-        return if (project.hasProperty(propertyName)) {
-            project.property(propertyName) as String
-        } else "Unknown"
-    }
-
-    user = env("BINTRAY_USER")
-    key = env("BINTRAY_KEY")
-    publish = true
-    override = true
-    setPublications("mavenPublish")
-    pkg(closureOf<PackageConfig>{
-        repo = "exposed"
-        name = NAME
-        desc = DESC
-        setLabels("kotlin", "exposed", "exposed-java-time", "jpms")
-        setLicenses("Apache-2.0")
-        publicDownloadNumbers = true
-        githubRepo = GITHUB_REPO
-        vcsUrl = "https://github.com/$githubRepo"
-        websiteUrl = vcsUrl
-        issueTrackerUrl = "$vcsUrl/issues"
-        version(closureOf<VersionConfig> {
-            name = "${project.version}"
-            desc = DESC
-            released = "${Date()}"
-            vcsTag = name
-        })
-    })
+signing {
+    sign(publishing.publications["maven"])
 }

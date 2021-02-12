@@ -1,4 +1,5 @@
-# exposed-java-time  [![JCenter Version](https://img.shields.io/bintray/v/rationalityfrontline/exposed/exposed-java-time?label=JCenter)](https://bintray.com/rationalityfrontline/exposed/exposed-java-time)  [![Apache License 2.0](https://img.shields.io/github/license/rationalityfrontline/exposed-java-time)](https://github.com/RationalityFrontline/exposed-java-time/blob/master/LICENSE)
+# exposed-java-time
+[![Maven Central](https://img.shields.io/maven-central/v/org.rationalityfrontline.workaround/exposed-java-time.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.rationalityfrontline.workaround%22%20AND%20a:%22exposed-java-time%22)  [![Apache License 2.0](https://img.shields.io/github/license/rationalityfrontline/exposed-java-time)](https://github.com/RationalityFrontline/exposed-java-time/blob/master/LICENSE)
 
 This library is a temporary workaround for the issue ["exposed-java-time.jar unusable with java module system"](https://github.com/JetBrains/Exposed/issues/853). 
 It solves the problem mentioned in the issue by renaming package name from "org.jetbrains.exposed.sql.java-time" to "org.jetbrains.exposed.sql.javatime".
@@ -11,13 +12,11 @@ First replace your dependency of "exposed-java-time" with this library, then alt
 
 ```kotlin
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
-val exposedVersion = "0.28.1"
-
 dependencies {
-    implementation("org.rationalityfrontline.exposed:exposed-java-time:$exposedVersion")
+    implementation("org.rationalityfrontline.workaround:exposed-java-time:0.29.1")
 }
 ```
 
