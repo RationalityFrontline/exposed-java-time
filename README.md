@@ -8,15 +8,13 @@ It solves the problem mentioned in the issue by renaming package name from "org.
 
 First replace your dependency of "exposed-java-time" with this library, then alter your package import sentence (remove the hyphen).
 
-**Gradle Kotlin DSL:**
-
 ```kotlin
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.rationalityfrontline.workaround:exposed-java-time:0.29.1")
+    implementation("org.rationalityfrontline.workaround:exposed-java-time:0.32.1")
 }
 ```
 
@@ -29,7 +27,7 @@ https://github.com/JetBrains/Exposed/issues/853
 exposed-java-time is released under the [Apache 2.0 license](https://github.com/RationalityFrontline/exposed-java-time/blob/master/LICENSE).
 
 ```
-Copyright 2020 RationalityFrontline
+Copyright 2020-2021 RationalityFrontline
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
