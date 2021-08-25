@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.rationalityfrontline.workaround"
-version = "0.32.1"
+version = "0.33.1"
 val NAME = project.name
 val DESC = "Removed hyphen from package name (\"java-time\" -> \"javatime\")"
 val GITHUB_REPO = "RationalityFrontline/exposed-java-time"
