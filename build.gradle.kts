@@ -1,12 +1,12 @@
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.5.30"
     `java-library`
     `maven-publish`
     signing
 }
 
 group = "org.rationalityfrontline.workaround"
-version = "0.33.1"
+version = "0.34.1"
 val NAME = project.name
 val DESC = "Removed hyphen from package name (\"java-time\" -> \"javatime\")"
 val GITHUB_REPO = "RationalityFrontline/exposed-java-time"

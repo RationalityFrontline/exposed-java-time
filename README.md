@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rationalityfrontline.workaround:exposed-java-time:0.33.1")
+    implementation("org.rationalityfrontline.workaround:exposed-java-time:0.34.1")
 }
 ```
 
